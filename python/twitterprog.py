@@ -4,6 +4,8 @@
 import twitter
 import creds
 import string
+import math
+import statistics
 from flask import Flask, request
 import pickle
 from sklearn import tree, metrics
@@ -36,7 +38,7 @@ def instring(check):
 # grabs the user whos name is provided information
 @app.route('/', methods = ["GET", "POST"])
 def usertweet():
-    name = "tinycarebot" #request.args.get("name")
+    name = "realDonaldTrump" #request.args.get("name")
         
     #Twitter API credentials
     consumer_key = creds.creds[0]
@@ -79,7 +81,9 @@ def usertweet():
             #results["created_at"],
             #results["id"]
             ]
+    
     data = pd.DataFrame(data)
+    
     # checks if bot is in name
     namedesc = instring(results["screen_name"])
 
@@ -88,8 +92,21 @@ def usertweet():
         namedesc = instring(results["description"])
 
     # if namedesc == 1 then user has bot in their description or name
-    #data.append(namedesc)
+    data.append(namedesc)
 
+    tweets = api.GetUserTimeline(screen_name = name)
+
+    times = []
+
+    # add time of each tweet to a list
+    for tweet in tweets:
+        times.append(tweet.created_at_in_seconds)
+
+    # calculate stdev between each tweet time
+    stdev = statistics.stdev(times)
+
+    data.append(stdev)
+    
     loaded_model = pickle.load(open("finalized_model.sav", 'rb'))
     result = loaded_model.predict(data.values.reshape(1,-1))
 
@@ -97,4 +114,3 @@ def usertweet():
     return str(result)
 
 app.run()
-
