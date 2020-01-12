@@ -44,7 +44,7 @@ def instring(check):
 # grabs the user whos name is provided information
 @app.route('/', methods = ["GET", "POST"])
 def usertweet():
-    name = "realDonaldTrump" #request.args.get("name")
+    name = request.args.get("name")
         
     #Twitter API credentials
     consumer_key = creds.creds[0]
