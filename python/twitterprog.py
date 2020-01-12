@@ -4,7 +4,6 @@
 import twitter
 import creds
 import string
-import math
 import statistics
 from flask import Flask, request
 import pickle
