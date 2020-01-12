@@ -1,22 +1,58 @@
 import React from 'react';
-import Slider from '@material-ui/core/Slider';
-import floorPlan from './1.svg'
+import Particles from 'react-particles-js';
 import './App.css';
 
-function App() {
-  return (
-    <div className="App">
-	<div className="TimeSelector">
-	   <Slider
-		aria-labelledby="discrete-slider-always"
-        	valueLabelDisplay="on"
-	   ></Slider>
+const particlesConfig ={
+	    "particles": {
+	        "number": {
+	            "value": 50
+	        },
+	        "size": {
+	            "value": 3
+	        }
+	    },
+	    "interactivity": {
+	        "events": {
+	            "onhover": {
+	                "enable": true,
+	                "mode": "repulse"
+	            }
+	        }
+	    }
+	}
+class MyForm extends React.Component {
+  constructor() {
+    super();
+    this.handleSubmit = this.handleSubmit.bind(this);
+  }
+
+  handleSubmit(event) {
+    event.preventDefault();
+    const form = event.target;
+    const data = new FormData(form);
+    
+    fetch('www.google.com', {
+      method: 'POST',
+      body: data,
+    });
+  }
+
+  render() {
+    return (
+	<div className="App">
+	    Twitter Bot Detector
+	<div className="App-header">
+	    
+      <form onSubmit={this.handleSubmit}>
+        <input name="username" type="text"/>
+        <button>Check profile!</button>
+      </form>
+	</div>	
 	</div>
-      <header className="App-header">
-        <img src={floorPlan} className="floorplan" alt="logo" />
-      </header>
-    </div>
-  );
+    );
+  }
 }
 
-export default App;
+export default MyForm;
+
+
