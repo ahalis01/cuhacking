@@ -24,6 +24,9 @@ class MyForm extends React.Component {
   constructor() {
     super();
     this.handleSubmit = this.handleSubmit.bind(this);
+    this.state = {
+	response: []
+    }
   }
 
   handleSubmit(event) {
@@ -31,10 +34,12 @@ class MyForm extends React.Component {
     const form = event.target;
     const data = new FormData(form);
     
-    fetch('www.google.com', {
+    fetch('https://inbound-fulcrum-264915.appspot.com/', {
       method: 'POST',
       body: data,
-    });
+    }).then(response => response.json())
+      .then(data => this.setState({ response: data }));
+
   }
 
   render() {
@@ -44,7 +49,7 @@ class MyForm extends React.Component {
 	<div className="App-header">
 	    
       <form onSubmit={this.handleSubmit}>
-        <input name="username" type="text"/>
+        <input name="name" type="text"/>
         <button>Check profile!</button>
       </form>
 	</div>	

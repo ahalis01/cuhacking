@@ -17,7 +17,7 @@ train_data = pd.read_csv('bots_data.csv', encoding='latin1')
 test_data = pd.read_csv('test.csv', encoding='latin1')
 
 train_attr = train_data[
-  ['followers_count', 'friends_count', 'listedcount', 'favourites_count', 'statuses_count', 'verified']]
+      ['followers_count', 'friends_count', 'listedcount', 'favourites_count', 'statuses_count', 'verified']]
 train_label = train_data[['bot']]
 
 test_attr = test_data[
@@ -50,8 +50,6 @@ pred = np.array(predicted)
 filename = 'finalized_model.sav'
 pickle.dump(clf, open(filename, 'wb'))
 
-#loaded_model = pickle.load(open(filename, 'rb'))
-#result = loaded_model.score(X_test, Y_test)
 #print(result)
 
 
