@@ -21,13 +21,13 @@ def instring(check):
                 if (ord(check[i - 1].lower()) < 97 or ord(check[i - 1].lower()) > 122):
                     if (ord(check[i + 3].lower()) < 97 or ord(check[i + 3].lower()) > 122):
                         if check[i + 1].lower() == 'o' or check[i + 1].lower() == '0':
-                            if check[i + 2].lower() == 't' or check[i + 1].lower() == '+':
+                            if check[i + 2].lower() == 't':
                                 return 1
 
             else:
                 if (ord(check[i + 3].lower()) < 97 or ord(check[i + 3].lower()) > 122):
                     if check[i + 1].lower() == 'o' or check[i + 1].lower() == '0':
-                        if check[i + 2].lower() == 't' or check[i + 1].lower() == '+':
+                        if check[i + 2].lower() == 't':
                             return 1
 
     return 0
