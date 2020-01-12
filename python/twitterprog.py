@@ -1,5 +1,4 @@
 # gets relevant information about a twitter user for determining if a bot
-# written by Connor Ciavarella
 
 # import modules
 import twitter
