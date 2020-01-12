@@ -1,9 +1,14 @@
-# twitter written by Connor Ciavarella
+# gets relevant information about a twitter user for determining if a bot
+# written by Connor Ciavarella
 
 # import modules
 import twitter
 import creds
 import string
+from flask import Flask, request
+import model
+
+app = Flask(__name__)
 
 # checks if bot is in check. if 1 then bot is in, if 0 then bot isnt
 def instring(check):
@@ -28,9 +33,10 @@ def instring(check):
         
 
 # grabs the user whos name is provided information
-def usertweet(name):
-    data = []
-    
+@app.route('/', methods = ["GET", "POST"])
+def usertweet():
+    name = "realDonaldTrump" #request.args.get("name")
+        
     #Twitter API credentials
     consumer_key = creds.creds[0]
     consumer_secret = creds.creds[1]
@@ -83,12 +89,13 @@ def usertweet(name):
     # if namedesc == 1 then user has bot in their description or name
     data.append(namedesc)
 
+    # get value from model
+    result = model.test(data)
+
     # return the data
-    return data
+    return result
 
-
-        
-
+app.run()
     
     
     
