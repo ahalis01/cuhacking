@@ -4,6 +4,7 @@
 import twitter
 import creds
 import string
+import math
 import statistics
 from flask import Flask, request
 import pickle
@@ -12,23 +13,29 @@ import pandas as pd
 
 app = Flask(__name__)
 
-# checks if bot is in check. if 1 then bot is in, if 0 then bot isnt
+# checks if bot is in check as a seperate word from any other words. ex bottom does not count but bot_tom would. if 1 then bot is in, if 0 then bot isnt
 def instring(check):
     for i in range(len(check)):
         character = check[i].lower()
         if character == 'b':
             if i != 0:
                 if (ord(check[i - 1].lower()) < 97 or ord(check[i - 1].lower()) > 122):
-                    if (ord(check[i + 3].lower()) < 97 or ord(check[i + 3].lower()) > 122):
-                        if check[i + 1].lower() == 'o' or check[i + 1].lower() == '0':
-                            if check[i + 2].lower() == 't':
+                    if (len(check) > i + 1) and (check[i + 1].lower() == 'o' or check[i + 1].lower() == '0'):
+                        if (len(check) > i + 2) and check[i + 2].lower() == 't':
+                            if (len(check) > i + 3) and (ord(check[i + 3].lower()) < 97 or ord(check[i + 3].lower()) > 122):
+                                return 1
+
+                            elif ((len(check) == i + 3)):
                                 return 1
 
             else:
-                if (ord(check[i + 3].lower()) < 97 or ord(check[i + 3].lower()) > 122):
-                    if check[i + 1].lower() == 'o' or check[i + 1].lower() == '0':
-                        if check[i + 2].lower() == 't':
+                if (len(check) > i + 1) and (check[i + 1].lower() == 'o' or check[i + 1].lower() == '0'):
+                    if (len(check) > i + 2) and check[i + 2].lower() == 't':
+                        if (len(check) > i + 3) and (ord(check[i + 3].lower()) < 97 or ord(check[i + 3].lower()) > 122):
                             return 1
+
+                        elif ((len(check) == i + 3)):
+                           return 1
 
     return 0
                         
@@ -91,7 +98,7 @@ def usertweet():
         namedesc = instring(results["description"])
 
     # if namedesc == 1 then user has bot in their description or name
-    data.append(namedesc)
+    #data.append(namedesc)
 
     tweets = api.GetUserTimeline(screen_name = name)
 
@@ -104,7 +111,7 @@ def usertweet():
     # calculate stdev between each tweet time
     stdev = statistics.stdev(times)
 
-    data.append(stdev)
+    #data.append(stdev)
     
     loaded_model = pickle.load(open("finalized_model.sav", 'rb'))
     result = loaded_model.predict(data.values.reshape(1,-1))
